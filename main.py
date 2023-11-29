@@ -52,14 +52,8 @@ if __name__ == '__main__':
     cv2.imwrite('./HR-VITON-main/test/test/image/00001_00.jpg',img)
 
     # Generate grayscale semantic segmentation image
-    import shutil
-
-    source_path = './resized_segmentation_img.png'
-    destination_path = './HR-VITON-main/test/test/image-parse-v3/00001_00.png'
-
-    # Sao chép tệp từ nguồn đến đích
-    shutil.copy(source_path, destination_path)
-
+    terminnal_command ="python get_seg_grayscale.py"
+    os.system(terminnal_command)
 
     # Generate Densepose image using detectron2 library
     print("\nGenerate Densepose image using detectron2 library\n")
