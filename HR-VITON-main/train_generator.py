@@ -176,7 +176,7 @@ def train(opt, train_loader, test_loader, test_vis_loader, board, tocg, generato
     discriminator.train()
     model.eval()
 
-    # criterion
+    # criterion (Hàm mất mát)
     if opt.fp16:
         criterionGAN = GANLoss('hinge', tensor=torch.cuda.HalfTensor)
     else:
@@ -185,7 +185,7 @@ def train(opt, train_loader, test_loader, test_vis_loader, board, tocg, generato
     criterionFeat = nn.L1Loss()
     criterionVGG = VGGLoss(opt)
 
-    # optimizer
+    # optimizer (Tối ưu hóa)
     optimizer_gen = torch.optim.Adam(generator.parameters(), lr=opt.G_lr, betas=(0, 0.9))
     scheduler_gen = torch.optim.lr_scheduler.LambdaLR(optimizer_gen, lr_lambda=lambda step: 1.0 -
             max(0, step * 1000 + opt.load_step - opt.keep_step) / float(opt.decay_step + 1))
@@ -216,6 +216,7 @@ def train(opt, train_loader, test_loader, test_vis_loader, board, tocg, generato
     gauss = tgm.image.GaussianBlur((15, 15), (3, 3))
     gauss = gauss.cuda()
 
+    
     for step in tqdm(range(opt.load_step, opt.keep_step + opt.decay_step)):
         iter_start_time = time.time()
         inputs = train_loader.next_batch()

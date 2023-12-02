@@ -48,37 +48,39 @@ def get_opt():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--gpu_ids", default="")
+    # Số lượng worker sẽ được sử dụng để đọc dữ liệu đầu vào đồng thời
     parser.add_argument('-j', '--workers', type=int, default=4)
     parser.add_argument('-b', '--batch-size', type=int, default=1)
-    parser.add_argument('--fp16', action='store_true', help='use amp')
+    parser.add_argument('--fp16', action='store_true', help='use amp') # sử dụng Độ chính xác hỗn hợp tự động (AMP - Automatic Mixed Precision)
     # Cuda availability
-    parser.add_argument('--cuda',default=False, help='cuda or cpu')
+    parser.add_argument('--cuda',default=False, help='cuda or cpu') # Sử dụng GPU (cuda) hoặc CPU
 
-    parser.add_argument('--test_name', type=str, default='test', help='test name')
-    parser.add_argument("--dataroot", default="./data/zalando-hd-resize")
-    parser.add_argument("--datamode", default="test")
-    parser.add_argument("--data_list", default="test_pairs.txt")
-    parser.add_argument("--output_dir", type=str, default="./Output")
-    parser.add_argument("--datasetting", default="unpaired")
-    parser.add_argument("--fine_width", type=int, default=768)
-    parser.add_argument("--fine_height", type=int, default=1024)
+    parser.add_argument('--test_name', type=str, default='test', help='test name') #tạo thư mục lưu các ảnh sau khi test
+    parser.add_argument("--dataroot", default="./data/zalando-hd-resize") # Đường dẫn tới dữ liệu
+    parser.add_argument("--datamode", default="test") # Chế độ dữ liệu (train, test)
+    parser.add_argument("--data_list", default="test_pairs.txt") # Danh sách các cặp dữ liệu trong tập kiểm thử
+    parser.add_argument("--output_dir", type=str, default="./Output")  # Thư mục lưu kết quả đầu ra
+    parser.add_argument("--datasetting", default="unpaired")  # Thiết lập tập dữ liệu (paired - ghép đôi hoặc unpaired)
+    parser.add_argument("--fine_width", type=int, default=768) # Chiều rộng ảnh sau khi tiền xử lý
+    parser.add_argument("--fine_height", type=int, default=1024)  # Chiều cao ảnh sau khi tiền xử lý
 
-    parser.add_argument('--tensorboard_dir', type=str, default='./data/zalando-hd-resize/tensorboard', help='save tensorboard infos')
-    parser.add_argument('--checkpoint_dir', type=str, default='checkpoints', help='save checkpoint infos')
-    parser.add_argument('--tocg_checkpoint', type=str, default='./eval_models/weights/v0.1/mtviton.pth', help='tocg checkpoint')
-    parser.add_argument('--gen_checkpoint', type=str, default='./eval_models/weights/v0.1/gen.pth', help='G checkpoint')
+    parser.add_argument('--tensorboard_dir', type=str, default='./data/zalando-hd-resize/tensorboard', help='save tensorboard infos')  # Thư mục lưu thông tin tensorboard
+    parser.add_argument('--checkpoint_dir', type=str, default='checkpoints', help='save checkpoint infos') # Thư mục lưu checkpoint
+    parser.add_argument('--tocg_checkpoint', type=str, default='./eval_models/weights/v0.1/mtviton.pth', help='tocg checkpoint') # Đường dẫn đến checkpoint của Tocg
+    parser.add_argument('--gen_checkpoint', type=str, default='./eval_models/weights/v0.1/gen.pth', help='G checkpoint') # Đường dẫn đến checkpoint của Generator
 
-    parser.add_argument("--tensorboard_count", type=int, default=100)
-    parser.add_argument("--shuffle", action='store_true', help='shuffle input data')
-    parser.add_argument("--semantic_nc", type=int, default=13)
-    parser.add_argument("--output_nc", type=int, default=13)
+    parser.add_argument("--tensorboard_count", type=int, default=100) # Số lượng iteration trước khi ghi thông tin vào Tensorboard
+    parser.add_argument("--shuffle", action='store_true', help='shuffle input data') # Xáo trộn dữ liệu đầu vào
+    parser.add_argument("--semantic_nc", type=int, default=13) # Số lượng channel của parse map (semantic map)
+    parser.add_argument("--output_nc", type=int, default=13) # Số lượng channel của ảnh đầu ra
     parser.add_argument('--gen_semantic_nc', type=int, default=7, help='# of input label classes without unknown class')
     
     # network
-    parser.add_argument("--warp_feature", choices=['encoder', 'T1'], default="T1")
-    parser.add_argument("--out_layer", choices=['relu', 'conv'], default="relu")
+    parser.add_argument("--warp_feature", choices=['encoder', 'T1'], default="T1") # Loại tính năng sử dụng trong quá trình warp
+    parser.add_argument("--out_layer", choices=['relu', 'conv'], default="relu") # Lớp đầu ra (ReLU hoặc Conv)
     
     # training
+    # Phương pháp tạo mask trang phục
     parser.add_argument("--clothmask_composition", type=str, choices=['no_composition', 'detach', 'warp_grad'], default='warp_grad')
         
     # Hyper-parameters

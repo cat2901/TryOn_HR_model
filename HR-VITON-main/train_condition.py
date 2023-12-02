@@ -47,14 +47,15 @@ def get_opt():
 
     parser.add_argument("--name", default="test")
     parser.add_argument("--gpu_ids", default="")
+    # Số lượng worker sẽ được sử dụng để đọc dữ liệu đầu vào đồng thời
     parser.add_argument('-j', '--workers', type=int, default=4)
     parser.add_argument('-b', '--batch-size', type=int, default=8)
-    parser.add_argument('--fp16', action='store_true', help='use amp')
+    parser.add_argument('--fp16', action='store_true', help='use amp') # sử dụng Độ chính xác hỗn hợp tự động (AMP - Automatic Mixed Precision)
 
-    parser.add_argument("--dataroot", default="./data/")
-    parser.add_argument("--datamode", default="train")
-    parser.add_argument("--data_list", default="train_pairs.txt")
-    parser.add_argument("--fine_width", type=int, default=192)
+    parser.add_argument("--dataroot", default="./data/")  # Đường dẫn tới dữ liệu
+    parser.add_argument("--datamode", default="train") # Chế độ dữ liệu (train, test)
+    parser.add_argument("--data_list", default="train_pairs.txt")  # Danh sách các cặp dữ liệu trong tập huấn luyện
+    parser.add_argument("--fine_width", type=int, default=192) 
     parser.add_argument("--fine_height", type=int, default=256)
 
     parser.add_argument('--tensorboard_dir', type=str, default='tensorboard', help='save tensorboard infos')
@@ -77,7 +78,8 @@ def get_opt():
     parser.add_argument('--Ddropout', action='store_true', help="Apply dropout to D")
     parser.add_argument('--num_D', type=int, default=2, help='Generator ngf')
     # Cuda availability
-    parser.add_argument('--cuda',default=False, help='cuda or cpu')
+    # Lựa chọn sử dụng GPU hoặc CPU
+    parser.add_argument('--cuda',default=False, help='cuda or cpu') 
     # training
     parser.add_argument("--G_D_seperate", action='store_true')
     parser.add_argument("--no_GAN_loss", action='store_true')
